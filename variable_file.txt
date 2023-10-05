@@ -1,0 +1,643 @@
+{
+                         ######## Connection between MySQL and GCP #########
+
+'DB_USER':'root',                                                           	 ### connection for database(db user_name) ###
+'CONNECTION_NAME':'hemaproj:us-central1:ncca-mysql',				 ### local MySQL to Cloud SQL of GCP connection name ###
+'DB_PASSWORD':'1234',								 ### Database Password ### 
+'DB_NAME':'nextogen',								 ### Database name in MySQL where the source table located ### 
+
+
+'load_job_type':'FULL_LOAD',				  			 ### Type of loading data which is full load ### 
+'gcpprojectname':'idyllic-silicon-183106',					 ### Project name in which we are working ### 
+
+
+                         ######## Variables related to MySQL #########
+
+'mysql_to_bq_datasetname':'mysql_gcs_bq',					 ### Destination BQ dataset name for MySQL data ### 
+'mysql_to_gcs_bucket_name':'mysql_to_gcs_bucket1',				 ### Cloud Storage bucket for MySQL data ### 
+'mysql_to_gcs_subfolder':'mysql_to_gcs_export',					 ### Folder inside the bucket where the MySQL data is loaded ### 
+'mysql_bq_backup_bucket_name':'mysql_bq_tables_backup1',			 ### Backup bucket to move the BigQuery tables data to GCS before 										                 #truncating ### 
+'source_tables_list':['department','employee','people','student1'],		 ### list of Source tables located in MySQl workbench ### 
+'mysql_table_files_backup_bucket':'mysql_source_files_backup_bucket1',		 ### Backup bucket for having the data backup of MySQL ### 
+
+
+                          ######## All the source file names from MySQL, FTP and API #########
+						
+'department':'None',								 ### Default filenames without the extension of file format 
+'employee':'None',								 ### Default filenames without the extension of file format
+'people':'None',								 ### Default filenames without the extension of file format
+'student1':'None',								 ### Default filenames without the extension of file format
+'Books_Info':'None',								 ### Default filenames without the extension of file format
+'Medications_Info':'None',							 ### Default filenames without the extension of file format
+'Iris_JSON':'None',								 ### Default filenames without the extension of file format
+'Registration_Details':'None',							 ### Default filenames without the extension of file format
+'Business_Data_collection_CSV':'None',					 	 ### Default filenames without the extension of file format
+'Tweets_in_twitter':'None',							 ### Default filenames without the extension of file format
+'Business_Data_Collection_TSV':'None',						 ### Default filenames without the extension of file format
+'Business_Data_Collection_XLSX':'None',						 ### Default filenames without the extension of file format
+'Employee_details_XLS':'None',							 ### Default filenames without the extension of file format
+'Business_Data_collection_updated':'None',				 	 ### Default filenames without the extension of file format
+'iris_PSV':'None',								 ### Default filenames without the extension of file format
+'Application_Logs':'None',							 ### Default filenames without the extension of file format
+'Employee_Details_CSV':'None', 	 	 				 	 ### Default filenames without the extension of file format
+'iris_ORC':'None',								 ### Default filenames without the extension of file format
+'api_file':'None',								 ### Default filenames without the extension of file format
+'Sample_Avro_File_Format':'None',
+'Sample_Superstore':'None',
+'Datafiniti_Womens_Shoes_Jun19':'None',
+'Datafiniti_Womens_Shoes':'None',
+'Features_data_set':'None',
+'sales_data_set':'None',
+'stores_data_set':'None',
+'order_details':'None',
+'pizza_orders':'None',
+'pizza_types':'None',
+'pizzas':'None',
+'distribution_centers':'None',
+'events':'None',
+'inventory_items':'None',
+'order_items1':'None',
+'orders':'None',
+'products':'None',
+'users':'None',  
+'Healthcare_hosp_general_info':'None',
+'Healthcare_Inpatient_charges':'None',
+'Healthcare_nursing_facilities':'None',
+'Healthcare_Outpatient_charges':'None',
+'Healthcare_partd_prescriber':'None',
+'Healthcare_patient_inv':'None',
+'Healthcare_physicians_and_othersuppliers':'None',
+'Healthcare_Refer_medical_equip':'None',
+'Finance_completedacct':'None',
+'Finance_completedcard':'None',
+'Finance_completedclient1':'None',
+'Finance_completeddisposition':'None',
+'Finance_completeddistrict':'None',
+'Finance_completedloan':'None',
+'Finance_completedorder':'None',
+'Finance_crm_call_center_logs':'None',
+'Finance_crm_events':'None',
+'Finance_crm_reviews':'None',
+'Finance_completedtrans':'None',
+'Retail_distribution_centers':'None',
+'Retail_events':'None',
+'Retail_inventory_items':'None',
+'Retail_users':'None',
+'Retail_products':'None',
+'Retail_order_items1':'None',
+'Retail_orders':'None',
+'Retail_cust_recom':'None',
+
+                 ########## Variables related to check for the required columns from the various files ########
+
+'department_columnlevel':'None',						 ### No column is assigned to check for null values
+'employee_columnlevel':'None',							 ### No column is assigned to check for null values
+'people_columnlevel':'None',							 ### No column is assigned to check for null values
+'student1_columnlevel':'None',							 ### No column is assigned to check for null values
+'Books_Info_columnlevel':['id','author','title'],				 ### No column is assigned to check for null values
+'Medications_Info_columnlevel':['medications','labs'],				 ### No column is assigned to check for null values
+'Iris_JSON_columnlevel':['sepalLength','sepalWidth'],				 ### No column is assigned to check for null values
+'Registration_Details_columnlevel':['registration_dttm','id','first_name'],	 ### No column is assigned to check for null values
+'Business_Data_collection_CSV_columnlevel':['Series_reference','Data_value','Subject','Group','Amount','Amount2','Date','card_details'],### No 										 		         ### column is assigned to check for null values
+'Tweets_in_twitter_columnlevel':'None',						 ### No column is assigned to check for null values
+'Business_Data_Collection_TSV_columnlevel':['Series_reference','Data_value'], 	 ### Data_value column of Business_Data_Collection_TSV file is 										                         ### assigned to check for null values
+'Business_Data_Collection_XLSX_columnlevel':'None',				 ### No column is assigned to check for null values
+'Employee_details_XLS_columnlevel':'None', 				      	 ### No column is assigned to check for null values
+'Business_Data_collection_updated_columnlevel':['card_details'],		 ### No column is assigned to check for null values
+'iris_PSV_columnlevel':['petal_length','variety'],			  	 ### No column is assigned to check for null values
+'Application_Logs_columnlevel':['ascdate','levelname','message'],		 ### No column is assigned to check for null values
+'Employee_Details_CSV_columnlevel':['Name','Age','Income'],	  		 ### No column is assigned to check for null values
+'iris_ORC_columnlevel':['sepal_length','petal_length'],	 			 ### No column is assigned to check for null values
+'api_file_columnlevel':['userId','title'],					 ### No column is assigned to check for null values
+'Sample_Avro_File_Format_columnlevel':['name'],
+'Sample_Superstore_columnlevel':['Row ID','Order ID'],
+'Datafiniti_Womens_Shoes_Jun19_columnlevel':['id','dateAdded','ean / upc','prices.color'],
+'Datafiniti_Womens_Shoes_columnlevel':'None',
+'Features_data_set_columnlevel':'None',
+'sales_data_set_columnlevel':'None',
+'stores_data_set_columnlevel':'None',
+'order_details_columnlevel':['order_details_id','order_id','pizza_id','quantity'], 
+'pizza_orders_columnlevel':['order_id','date','time'],
+'pizza_types_columnlevel':['pizza_type_id','name','category','ingredients'],
+'pizzas_columnlevel':['pizza_id','pizza_type_id','size','price'],
+'distribution_centers_columnlevel':['id','name','latitude','longitude'],
+'events_columnlevel':['id','user_id','sequence_number','session_id','created_at','ip_address','city','state','postal_code','browser','traffic_source','uri','event_type'],
+'inventory_items_columnlevel':['id','product_id','created_at','sold_at','cost','product_category','product_name','product_brand','product_retail_price','product_department','product_sku','product_distribution_center_id'],
+'order_items_columnlevel':['id','order_id','user_id','product_id','inventory_item_id','status','created_at','shipped_at','delivered_at','returned_at','sale_price'],
+'orders_columnlevel':['order_id','user_id','status','gender','created_at','returned_at','shipped_at','delivered_at','num_of_item'],
+'products_columnlevel':['id','cost','category','name','brand','retail_price','department','distribution_center_id'],
+'users_columnlevel':['id','first_name','last_name','email','age','gender','state','street_address','postal_code','city','country','latitude','longitude','traffic_source','created_at'],
+'Healthcare_hosp_general_info_columnlevel':'None',
+'Healthcare_Inpatient_charges_columnlevel':'None',
+'Healthcare_nursing_facilities_columnlevel':'None',
+'Healthcare_Outpatient_charges_columnlevel':'None',
+'Healthcare_partd_prescriber_columnlevel':'None',
+'Healthcare_patient_inv_columnlevel':'None',
+'Healthcare_physicians_and_othersuppliers_columnlevel':'None',
+'Healthcare_Refer_medical_equip_columnlevel':'None',
+'Finance_completedacct_columnlevel':'None',
+'Finance_completedcard_columnlevel':'None',
+'Finance_completedclient1_columnlevel':'None',
+'Finance_completeddisposition_columnlevel':'None',
+'Finance_completeddistrict_columnlevel':'None',
+'Finance_completedloan_columnlevel':'None',
+'Finance_completedorder_columnlevel':'None',
+'Finance_crm_call_center_logs_columnlevel':'None',
+'Finance_crm_events_columnlevel':'None',
+'Finance_crm_reviews_columnlevel':'None',
+'Finance_completedtrans_columnlevel':'None',
+'Retail_distribution_centers_columnlevel':'None',
+'Retail_events_columnlevel':'None',
+'Retail_inventory_items_columnlevel':'None',
+'Retail_users_columnlevel':'None',
+'Retail_products_columnlevel':'None',
+'Retail_order_items1_columnlevel':'None',
+'Retail_orders_columnlevel':'None',
+'Retail_cust_recommendation_columnlevel':'None',
+                                            
+                 ########## Variables related to check for the null values of required columns from the various files ########
+
+'department_nullvalues':'None',							 ### No column is assigned to check for null values
+'employee_nullvalues':'None',							 ### No column is assigned to check for null values
+'people_nullvalues':'None',							 ### No column is assigned to check for null values
+'student1_nullvalues':'None',							 ### No column is assigned to check for null values
+'employee_nullvalues':'None',							 ### No column is assigned to check for null values
+'Books_Info_nullvalues':'None',							 ### No column is assigned to check for null values
+'Medications_Info_nullvalues':'None',						 ### No column is assigned to check for null values
+'Iris_JSON_nullvalues':'None',							 ### No column is assigned to check for null values
+'Registration_Details_nullvalues':'None',					 ### No column is assigned to check for null values
+'Business_Data_collection_CSV_nullvalues':'None',				 ### No column is assigned to check for null values
+'Tweets_in_twitter_nullvalues':'None',						 ### No column is assigned to check for null values
+'Business_Data_Collection_TSV_nullvalues':['Data_value'], 			 ### Data_value column of Business_Data_Collection_TSV file is 										                         ### assigned to check for null values
+'Business_Data_Collection_XLSX_nullvalues':'None',				 ### No column is assigned to check for null values
+'Employee_details_XLS_nullvalues':'None', 					 ### No column is assigned to check for null values
+'Business_Data_collection_updated_nullvalues':'None',				 ### No column is assigned to check for null values
+'iris_PSV_nullvalues':['variety'],	  		 			 ### No column is assigned to check for null values
+'Application_Logs_nullvalues':'None',						 ### No column is assigned to check for null values
+'Employee_Details_CSV_nullvalues':'None',					 ### No column is assigned to check for null values
+'iris_ORC_nullvalues':'None',
+'api_file_nullvalues':'None',
+'Sample_Avro_File_Format_nullvalues':'None',
+'Sample_Superstore_nullvalues':'None',
+'Datafiniti_Womens_Shoes_Jun19_nullvalues':'None',
+'Datafiniti_Womens_Shoes_nullvalues':'None',
+'Features_data_set_nullvalues':'None',
+'sales_data_set_nullvalues':'None',
+'stores_data_set_nullvalues':'None',
+'order_details_nullvalues':'None',
+'pizza_orders_nullvalues':'None',
+'pizza_types_nullvalues':'None',
+'pizzas_nullvalues':'None',
+'distribution_centers_nullvalues':'None',
+'events_nullvalues':'None',
+'inventory_items_nullvalues':'None',
+'order_items_nullvalues':'None',
+'orders_nullvalues':'None',
+'products_nullvalues':'None',
+'users_nullvalues':'None', 
+'Healthcare_hosp_general_info_nullvalues':'None',
+'Healthcare_Inpatient_charges_nullvalues':'None',
+'Healthcare_nursing_facilities_nullvalues':'None',
+'Healthcare_Outpatient_charges_nullvalues':'None',
+'Healthcare_partd_prescriber_nullvalues':'None',
+'Healthcare_patient_inv_nullvalues':'None',
+'Healthcare_physicians_and_othersuppliers_nullvalues':'None',
+'Healthcare_Refer_medical_equip_nullvalues':'None',
+'Finance_completedacct_nullvalues':'None',
+'Finance_completedcard_nullvalues':'None',
+'Finance_completedclient1_nullvalues':'None',
+'Finance_completeddisposition_nullvalues':'None',
+'Finance_completeddistrict_nullvalues':'None',
+'Finance_completedloan_nullvalues':'None',
+'Finance_completedorder_nullvalues':'None',
+'Finance_crm_call_center_logs_nullvalues':'None',
+'Finance_crm_events_nullvalues':'None',
+'Finance_crm_reviews_nullvalues':'None',
+'Finance_completedtrans_nullvalues':'None',
+'Retail_distribution_centers_nullvalues':'None',
+'Retail_events_nullvalues':'None',
+'Retail_inventory_items_nullvalues':'None',
+'Retail_users_nullvalues':'None',
+'Retail_products_nullvalues':'None',
+'Retail_order_items1_nullvalues':'None',
+'Retail_orders_nullvalues':'None',
+'Retail_cust_recommendation_nullvalues':'None',
+
+                
+                  ########### Variables related to check for the maskdata of required columns from the various files ########
+
+'department_maskdata':'None',							 ### No column is assigned to check for Masked data
+'employee_maskdata':'None',							 ### No column is assigned to check for Masked data
+'people_maskdata':'None',							 ### No column is assigned to check for Masked data
+'student1_maskdata':'None',							 ### No column is assigned to check for Masked data
+'employee_maskdata':'None',							 ### No column is assigned to check for Masked data
+'Books_Info_maskdata':'None',							 ### No column is assigned to check for Masked data
+'Medications_Info_maskdata':'None',						 ### No column is assigned to check for Masked data
+'Iris_JSON_maskdata':'None',							 ### No column is assigned to check for Masked data
+'Registration_Details_maskdata':'None',						 ### No column is assigned to check for Masked data
+'Business_Data_collection_CSV_maskdata':'None',					 ### No column is assigned to check for Masked data
+'Tweets_in_twitter_maskdata':'None',						 ### No column is assigned to check for Masked data
+'Business_Data_Collection_TSV_maskdata':'None',					 ### No column is assigned to check for Masked data
+'Business_Data_Collection_XLSX_maskdata':'None',				 		 ### No column is assigned to check for null values
+'Employee_details_XLS_maskdata':'None', 						 	 ### No column is assigned to check for Masked data
+'Business_Data_collection_updated_maskdata':['card_details'],			 ### card_details column of Business_Data_collection_updated 										        	         ### file is assigned to check for Masked data
+'iris_PSV_maskdata':'None',							 ### No column is assigned to check for Masked data
+'Application_Logs_maskdata':'None',						 ### No column is assigned to check for Masked data
+'Employee_Details_CSV_maskdata':'None',						 ### No column is assigned to check for Masked data
+'iris_ORC_maskdata':'None',							 ### No column is assigned to check for Masked data
+'api_file_maskdata':'None',	
+'Sample_Superstore_maskdata':'None',
+'Datafiniti_Womens_Shoes_Jun19_maskdata':'None',
+'Datafiniti_Womens_Shoes_maskdata':'None',
+'Features_data_set_maskdata':'None',
+'sales_data_set_maskdata':'None',
+'stores_data_set_maskdata':'None',
+'order_details_maskdata':'None',
+'pizza_orders_maskdata':'None',
+'pizza_types_maskdata':'None',
+'pizzas_maskdata':'None',
+'distribution_centers_maskdata':'None',
+'events_maskdata':'None',
+'inventory_items_maskdata':'None',
+'order_items_maskdata':'None',
+'orders_maskdata':'None',
+'products_maskdata':'None',
+'users_maskdata':'None', 
+'Healthcare_hosp_general_info_maskdata':'None',
+'Healthcare_Inpatient_charges_maskdata':'None',
+'Healthcare_nursing_facilities_maskdata':'None',
+'Healthcare_Outpatient_charges_maskdata':'None',
+'Healthcare_partd_prescriber_maskdata':'None',
+'Healthcare_patient_inv_maskdata':'None',
+'Healthcare_physicians_and_othersuppliers_maskdata':'None',
+'Healthcare_Refer_medical_equip_maskdata':'None',
+'Finance_completedacct_maskdata':'None',
+'Finance_completedcard_maskdata':'None',
+'Finance_completedclient1_maskdata':'None',
+'Finance_completeddisposition_maskdata':'None',
+'Finance_completeddistrict_maskdata':'None',
+'Finance_completedloan_maskdata':'None',
+'Finance_completedorder_maskdata':'None',
+'Finance_crm_call_center_logs_maskdata':'None',
+'Finance_crm_events_maskdata':'None',
+'Finance_crm_reviews_maskdata':'None',
+'Finance_completedtrans_maskdata':'None',
+'Retail_distribution_centers_maskdata':'None',
+'Retail_events_maskdata':'None',
+'Retail_inventory_items_maskdata':'None',
+'Retail_users_maskdata':'None',
+'Retail_products_maskdata':'None',
+'Retail_order_items1_maskdata':'None',
+'Retail_orders_maskdata':'None',
+'Retail_cust_recommendation_maskdata':'None',
+
+						 ### No column is assigned to check for Masked data
+
+
+                    ############ Variables related to check the total sum of a required column ##########
+
+'department_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'employee_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'people_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'student1_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'employee_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'Books_Info_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'Medications_Info_columnsum':'None',						 ### No column is assigned to check for total sum of column
+'Iris_JSON_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'Registration_Details_columnsum':'None',					 ### No column is assigned to check for total sum of column
+'Business_Data_collection_CSV_columnsum':['Amount'],				 ### Amount column of Business_Data_collection_CSV file is 										 		         ### assigned to check for total sum of column
+'Tweets_in_twitter_columnsum':'None',						 ### No column is assigned to check for total sum of column
+'Business_Data_Collection_TSV_columnsum':'None',				 ### No column is assigned to check for total sum of column
+'Business_Data_Collection_XLSX_columnsum':'None',				 ### No column is assigned to check for null values
+'Employee_details_XLS_columnsum':'None', 					 ### No column is assigned to check for total sum of column
+'Business_Data_collection_updated_columnsum':'None',				 ### No column is assigned to check for total sum of column
+'iris_PSV_columnsum':'None',							 ### No column is assigned to check for total sum of column
+'Application_Logs_columnsum':'None',						 ### No column is assigned to check for total sum of column
+'Employee_Details_CSV_columnsum':'None',					 ### No column is assigned to check for total sum of column
+'iris_ORC_columnsum':'None',
+'api_file_columnsum':'None',
+'Sample_Superstore_columnsum':'None',
+'Datafiniti_Womens_Shoes_Jun19_columnsum':'None',
+'Datafiniti_Womens_Shoes_columnsum':'None',
+'Features_data_set_columnsum':'None',
+'sales_data_set_columnsum':'None',
+'stores_data_set_columnsum':'None',
+'order_details_columnsum':'None',
+'pizza_orders_columnsum':'None',
+'pizza_types_columnsum':'None',
+'pizzas_columnsum':'None',
+'distribution_centers_columnsum':'None',
+'events_columnsum':'None',
+'inventory_items_columnsum':'None',
+'order_items_columnsum':'None',
+'orders_columnsum':'None',
+'products_columnsum':'None',
+'users_columnsum':'None', 
+'Healthcare_hosp_general_info_columnsum':'None',
+'Healthcare_Inpatient_charges_columnsum':'None',
+'Healthcare_nursing_facilities_columnsum':'None',
+'Healthcare_Outpatient_charges_columnsum':'None',
+'Healthcare_partd_prescriber_columnsum':'None',
+'Healthcare_patient_inv_columnsum':'None',
+'Healthcare_physicians_and_othersuppliers_columnsum':'None',
+'Healthcare_Refer_medical_equip_columnsum':'None',
+'Finance_completedacct_columnsum':'None',
+'Finance_completedcard_columnsum':'None',
+'Finance_completedclient1_columnsum':'None',
+'Finance_completeddisposition_columnsum':'None',
+'Finance_completeddistrict_columnsum':'None',
+'Finance_completedloan_columnsum':'None',
+'Finance_completedorder_columnsum':'None',
+'Finance_crm_call_center_logs_columnsum':'None',
+'Finance_crm_events_columnsum':'None',
+'Finance_crm_reviews_columnsum':'None',
+'Finance_completedtrans_columnsum':'None',
+'Retail_distribution_centers_columnsum':'None',
+'Retail_events_columnsum':'None',
+'Retail_inventory_items_columnsum':'None',
+'Retail_users_columnsum':'None',
+'Retail_products_columnsum':'None',
+'Retail_order_items1_columnsum':'None',
+'Retail_orders_columnsum':'None',
+'Retail_cust_recommendation_columnsum':'None',
+
+           ############## Variables realted to check the duplicate values of required columns from various files ###########
+
+'department_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'employee_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'people_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'student1_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'Books_Info_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'Medications_Info_duplicates':'None',		        		### No column is assigned to check for duplicate values of a column
+'Iris_JSON_duplicates':'None',  			 	        ### No column is assigned to check for duplicate values of a column
+'Registration_Details_duplicates':'None',				### No column is assigned to check for duplicate values of a column
+'Business_Data_collection_CSV_duplicates':['Amount'],			### Amount column of Business_Data_collection_CSV file is assigned to 											### check for duplicate values of a column
+'Tweets_in_twitter_duplicates':'None',		 			### No column is assigned to check for duplicate values of a column
+'Business_Data_Collection_TSV_duplicates':['Data_value'],		### Data_value column of Business_Data_Collection_TSV file is assigned to 									### check for duplicate values of a column
+'Business_Data_Collection_XLSX_duplicates':'None',				 		 ### No column is assigned to check for null values
+'Employee_details_XLS_duplicates':'None', 					### No column is assigned to check for duplicate values of a column
+'Business_Data_collection_updated_duplicates':'None',			### No column is assigned to check for duplicate values of a column
+'iris_PSV_duplicates':'None',					        ### No column is assigned to check for duplicate values of a column
+'Application_Logs_duplicates':'None',					### No column is assigned to check for duplicate values of a column
+'Employee_Details_CSV_duplicates':'None',				### No column is assigned to check for duplicate values of a column
+'iris_ORC_duplicates':'None',						### No column is assigned to check for duplicate values of a column
+'api_file_duplicates':'None',	
+'Sample_Superstore_duplicates':'None',
+'Datafiniti_Womens_Shoes_Jun19_duplicates':'None',
+'Datafiniti_Womens_Shoes_duplicates':'None',
+'Features_data_set_duplicates':'None',
+'sales_data_set_duplicates':'None',
+'stores_data_set_duplicates':'None',
+'order_details_duplicates':'None',
+'pizza_orders_duplicates':'None',
+'pizza_types_duplicates':'None',
+'pizzas_duplicates':'None',	 
+'distribution_centers_duplicates':'None',		
+'events_duplicates':'None',	
+'inventory_items_duplicates':'None',
+'order_items_duplicates':'None',
+'orders_duplicates':'None',
+'products_duplicates':'None',	
+'users_duplicates':'None',   
+'Healthcare_hosp_general_info_duplicates':'None',
+'Healthcare_Inpatient_charges_duplicates':'None',
+'Healthcare_nursing_facilities_duplicates':'None',
+'Healthcare_Outpatient_charges_duplicates':'None',
+'Healthcare_partd_prescriber_duplicates':'None',
+'Healthcare_patient_inv_duplicates':'None',
+'Healthcare_physicians_and_othersuppliers_duplicates':'None',
+'Healthcare_Refer_medical_equip_duplicates':'None',    
+'Finance_completedacct_duplicates':'None',
+'Finance_completedcard_duplicates':'None',
+'Finance_completedclient1_duplicates':'None',
+'Finance_completeddisposition_duplicates':'None',
+'Finance_completeddistrict_duplicates':'None',
+'Finance_completedloan_duplicates':'None',
+'Finance_completedorder_duplicates':'None',
+'Finance_crm_call_center_logs_duplicates':'None',
+'Finance_crm_events_duplicates':'None',
+'Finance_crm_reviews_duplicates':'None',
+'Finance_completedtrans_duplicates':'None',
+'Retail_distribution_centers_duplicates':'None',
+'Retail_events_duplicates':'None',
+'Retail_inventory_items_duplicates':'None',
+'Retail_users_duplicates':'None',
+'Retail_products_duplicates':'None',
+'Retail_order_items1_duplicates':'None',
+'Retail_orders_duplicates':'None',                                         ### No column is assigned to check for duplicate values of a column
+'Retail_cust_recommendation_duplicates':'None',
+
+
+                       ############### Variables related to date conversion to a standard format to the required columns ############
+
+'department_dateconversion':'None',					### No date column is assigned to convert date to a standard date format  
+'employee_dateconversion':'None',			        	### No date column is assigned to convert date to a standard date format
+'people_dateconversion':'None',						### No date column is assigned to convert date to a standard date format
+'student1_dateconversion':'None',					### No date column is assigned to convert date to a standard date format
+'Books_Info_dateconversion':'None',					### No date column is assigned to convert date to a standard date format
+'Medications_Info_dateconversion':'None',	        		### No date column is assigned to convert date to a standard date format	
+'Iris_JSON_dateconversion':'None',					### No date column is assigned to convert date to a standard date format
+'Registration_Details_dateconversion':'None',				### No date column is assigned to convert date to a standard date format
+'Business_Data_collection_CSV_dateconversion':['Date'],			### Date column of Business_Data_collection_CSV file is assigned to 											        ### convert date to a standard date format
+'Tweets_in_twitter_dateconversion':'None',				### No date column is assigned to convert date to a standard date format
+'Business_Data_Collection_TSV_dateconversion':'None',			### No date column is assigned to convert date to a standard date format
+'Business_Data_Collection_XLSX_dateconversion':'None',			### No column is assigned to check for null values
+'Employee_details_XLS_dateconversion':'None', 				### No date column is assigned to convert date to a standard date format
+'Business_Data_collection_updated_dateconversion':'None',		### No date column is assigned to convert date to a standard date format
+'iris_PSV_dateconversion':'None',					### No date column is assigned to convert date to a standard date format
+'Application_Logs_dateconversion':'None',				### No date column is assigned to convert date to a standard date format
+'Employee_Details_CSV_dateconversion':'None',				### No date column is assigned to convert date to a standard date format
+'iris_ORC_dateconversion':'None',					### No date column is assigned to convert date to a standard date format
+'api_file_dateconversion':'None',
+'Sample_Superstore_dateconversion':'None',
+'Datafiniti_Womens_Shoes_Jun19_dateconversion':'None',
+'Datafiniti_Womens_Shoes_dateconversion':'None',
+'Features_data_set_dateconversion':'None',
+'sales_data_set_dateconversion':'None',
+'stores_data_set_dateconversion':'None',
+'order_details_dateconversion':'None',
+'pizza_orders_dateconversion':'None',
+'pizza_types_dateconversion':'None',
+'pizzas_dateconversion':'None',		
+'distribution_centers_dateconversion':'None',		
+'events_dateconversion':'None',
+'inventory_items_dateconversion':'None',
+'order_items_dateconversion':'None',
+'orders_dateconversion':'None',
+'products_dateconversion':'None',
+'users_dateconversion':'None',	      
+'Healthcare_hosp_general_info_dateconversion':'None',
+'Healthcare_Inpatient_charges_dateconversion':'None',
+'Healthcare_nursing_facilities_dateconversion':'None',
+'Healthcare_Outpatient_charges_dateconversion':'None',
+'Healthcare_partd_prescriber_dateconversion':'None',
+'Healthcare_patient_inv_dateconversion':'None',
+'Healthcare_physicians_and_othersuppliers_dateconversion':'None',
+'Healthcare_Refer_medical_equip_dateconversion':'None',        
+'Finance_completedacct_dateconversion':'None',
+'Finance_completedcard_dateconversion':'None',
+'Finance_completedclient1_dateconversion':'None',
+'Finance_completeddisposition_dateconversion':'None',
+'Finance_completeddistrict_dateconversion':'None',
+'Finance_completedloan_dateconversion':'None',
+'Finance_completedorder_dateconversion':'None',
+'Finance_crm_call_center_logs_dateconversion':'None',
+'Finance_crm_events_dateconversion':'None',
+'Finance_crm_reviews_dateconversion':'None',
+'Finance_completedtrans_dateconversion':'None',
+'Retail_distribution_centers_dateconversion':'None',
+'Retail_events_dateconversion':'None',
+'Retail_inventory_items_dateconversion':'None',
+'Retail_users_dateconversion':'None',
+'Retail_products_dateconversion':'None',
+'Retail_order_items1_dateconversion':'None',
+'Retail_orders_dateconversion':'None',      ### No date column is assigned to convert date to a standard date format
+'Retail_cust_recommendation_dateconversion':'None',
+
+
+                      ################ Dataset and tables related to data quality check ################
+
+'validation_nullvalues_dataset':'Data_Quality_Check',			### Dataset created in BQ to have the data quality check tables
+'bq_validation_table':'validation_count_table',			        ### Table to validate source(MYSQL or FTP) and destination (BigQuery) 									         ### tables count and insert the validation data to validation table in BigQuery
+'mask_check_validation_table':'maskdata_validation_table',		### Table to check whether the same masked data of source file has been 								 	 ### uploaded to BigQuery
+'sum_check_validation_table':'sum_check_table',				### Table to check whether the sum calculation of source and destination 								 	 ### files are similar
+'bq_logging_info_table':'logging_info_table',			 	### Table to check whether the program has been executed within the 										 ### allocated SLA time 
+'SLAtimeinseconds':1800,						### Variable for assigning SLA time
+'mysql_logfile_path':'/tmp/mysql_to_bq.log',				### Temporary logfile to read the logging data from mysql
+'duplicates_table':'duplicates_check_table',   				### Table to check the existence of any duplicates data
+'source_type':'can_be_changed',			 			### source type can be changed 
+ 
+  
+                         ################ Connection to the FTP Server ################
+
+'FTP_HOST':'44.226.240.135',							 ### Public IP of AWS instance where the FTP server is located
+'FTP_USER':'Hema2',								 ### User name of FTP server  
+'FTP_PASS':'Hema',								 ### Password of above user of FTP
+'src_fold':'All_Domains', 	   	 	 	   			 ### Source folder where the different files are located				  
+
+                         ################ Variables related to FTP_to_BQ CSV files ###############
+
+'FTP_csv_to_GCS_bucket':'ftp_csv_to_gcs_bucket1',				 ### Bucket to store csv files getting from FTP
+'FTP_csv_gcs_destination_folder':'ftp_csv_folder',				 ### Folder inside the bucket to store csv files
+'FTP_csv_source_files_backup_bucket':'ftp_csv_source_files_backup_bucket1',	 ### Backup bucket to store the source files csv data
+'FTP_csv_bq_tables_backup_bucket':'ftp_csv_bq_tables_backup1',			 ### Backup bucket to store the csv related BQ tables data
+'FTP_to_BQ_csv_dataset':'Domain_FTP',					 ### Dataset in BQ to store csv file related tables 
+
+                         
+                         ################ Variables related to FTP_to_BQ JSON files ###############
+
+'FTP_json_to_GCS_bucket':'ftp_json_to_gcs_bucket1',				 ### Bucket to store json files getting from FTP
+'FTP_json_gcs_destination_folder':'ftp_json_folder',      			 ### Folder inside the bucket to store json files
+'FTP_json_source_files_backup_bucket':'ftp_json_source_files_backup_bucket1',    ### Backup bucket to store the source files json data
+'FTP_json_bq_tables_backup_bucket':'ftp_json_bq_tables_backup1',		 ### Backup bucket to store the json related BQ tables data
+'FTP_to_BQ_json_dataset':'ftp_gcs_bq_json',					 ### Dataset in BQ to store json file related tables
+
+
+                         ################ Variables related to FTP_to_BQ AVRO files ###############
+
+'FTP_avro_to_GCS_bucket':'ftp_avro_to_gcs_bucket1',				 ### Bucket to store avro files getting from FTP
+'FTP_avro_gcs_destination_folder':'ftp_avro_folder',				 ### Folder inside the bucket to store avro files
+'FTP_avro_source_files_backup_bucket':'ftp_avro_source_files_backup_bucket1',    ### Backup bucket to store the source files avro data
+'FTP_avro_bq_tables_backup_bucket':'ftp_avro_bq_tables_backup1',		 ### Backup bucket to store the avro related BQ tables data
+'FTP_to_BQ_avro_dataset':'ftp_gcs_bq_avro',					 ### Dataset in BQ to store avro file related tables
+
+                           
+                          ################ Variables related to FTP_to_BQ TSV files ###############
+
+'FTP_tsv_to_GCS_bucket':'ftp_tsv_to_gcs_bucket1',				 ### Bucket to store tsv files getting from FTP
+'FTP_tsv_gcs_destination_folder':'ftp_tsv_folder',       			 ### Folder inside the bucket to store tsv files
+'FTP_tsv_source_files_backup_bucket':'ftp_tsv_source_files_backup_bucket1',	 ### Backup bucket to store the source files tsv data
+'FTP_tsv_bq_tables_backup_bucket':'ftp_tsv_bq_tables_backup1',			 ### Backup bucket to store the tsv related BQ tables data
+'FTP_to_BQ_tsv_dataset':'ftp_gcs_bq_tsv',					 ### Dataset in BQ to store tsv file related tables
+
+
+
+                         ################ Variables related to FTP_to_BQ PSV files ###############
+
+'FTP_psv_to_GCS_bucket':'ftp_psv_to_gcs_bucket1',				 ### Bucket to store psv files getting from FTP
+'FTP_psv_gcs_destination_folder':'ftp_psv_folder',				 ### #Folder inside the bucket to store psv files
+'FTP_psv_source_files_backup_bucket':'ftp_psv_source_files_backup_bucket1',      ### Backup bucket to store the source files psv data
+'FTP_psv_bq_tables_backup_bucket':'ftp_psv_bq_tables_backup1',			 ### Backup bucket to store the psv related BQ tables data
+'FTP_to_BQ_psv_dataset':'ftp_gcs_bq_psv',	     				 ### Dataset in BQ to store psv file related tables
+
+
+                         ################ Variables related to FTP_to_BQ XLSX files ###############
+
+'FTP_xlsx_to_GCS_bucket':'ftp_xlsx_to_gcs_bucket1',				 ### Bucket to store xlsx files getting from FTP
+'FTP_xlsx_gcs_destination_folder':'ftp_xlsx_folder',				 ### Folder inside the bucket to store xlsx files
+'FTP_xlsx_source_files_backup_bucket':'ftp_xlsx_source_files_backup_bucket1',    ### Backup bucket to store the source files xlsx data
+'FTP_xlsx_bq_tables_backup_bucket':'ftp_xlsx_bq_tables_backup1',		 ### Backup bucket to store the xlsx related BQ tables data
+'FTP_to_BQ_xlsx_dataset':'ftp_gcs_bq_xlsx',					 ### Dataset in BQ to store xlsx file related tables
+
+
+                         ################ Variables related to FTP_to_BQ XLS files ###############
+
+'FTP_xls_to_GCS_bucket':'ftp_xls_to_gcs_bucket1',				 ### Bucket to store xls files getting from FTP
+'FTP_xls_gcs_destination_folder':'ftp_xls_folder',				 ### Folder inside the bucket to store xls files
+'FTP_xls_source_files_backup_bucket':'ftp_xls_source_files_backup_bucket1',  	 ### Backup bucket to store the source files xls data
+'FTP_xls_bq_tables_backup_bucket':'ftp_xls_bq_tables_backup1',			 ### Backup bucket to store the xls related BQ tables data
+'FTP_to_BQ_xls_dataset':'ftp_gcs_bq_xls',					 ### Dataset in BQ to store xls file related tables
+
+
+                         ################ Variables related to FTP_to_BQ XML files ###############
+
+'FTP_xml_to_GCS_bucket':'ftp_xml_to_gcs_bucket1',				 ### Bucket to store xml files getting from FTP
+'FTP_xml_gcs_destination_folder':'ftp_xml_folder',				 ### Folder inside the bucket to store xml files
+'FTP_xml_source_files_backup_bucket':'ftp_xml_source_files_backup_bucket1',	 ### Backup bucket to store the source files xml data
+'FTP_xml_bq_tables_backup_bucket':'ftp_xml_bq_tables_backup1',			 ### Backup bucket to store the xml related BQ tables data
+'FTP_to_BQ_xml_dataset':'ftp_gcs_bq_xml',					 ### Dataset in BQ to store xml file related tables
+
+
+                         ################ Variables related to FTP_to_BQ ORC files ###############
+
+'FTP_orc_to_GCS_bucket':'ftp_orc_to_gcs_bucket1',				 ### Bucket to store orc files getting from FTP
+'FTP_orc_gcs_destination_folder':'ftp_orc_folder',				 ### Folder inside the bucket to store orc files
+'FTP_orc_source_files_backup_bucket':'ftp_orc_source_files_backup_bucket1',      ### Backup bucket to store the source files orc data
+'FTP_orc_bq_tables_backup_bucket':'ftp_orc_bq_tables_backup1',			 ### Backup bucket to store the orc related BQ tables data
+'FTP_to_BQ_orc_dataset':'ftp_gcs_bq_orc',					 ### Dataset in BQ to store orc file related tables
+
+
+                         ################ Variables related to FTP_to_BQ PARQUET files ###############
+
+'FTP_parquet_to_GCS_bucket':'ftp_parquet_to_gcs_bucket1',			 ### Bucket to store parquet files getting from FTP
+'FTP_parquet_gcs_destination_folder':'ftp_parquet_folder',			 ### Folder inside the bucket to store parquet files
+'FTP_parquet_source_files_backup_bucket':'ftp_parquet_source_files_backup_bucket1',### Backup bucket to store the source files parquet data
+'FTP_parquet_bq_tables_backup_bucket':'ftp_parquet_bq_tables_backup1',		 ### Backup bucket to store the parquet related BQ tables data
+'FTP_to_BQ_parquet_dataset':'ftp_gcs_bq_parquet',				 ### Dataset in BQ to store parquet file related tables
+
+
+                         ################ Variables related to FTP_to_BQ LOG files ###############
+
+'FTP_log_to_GCS_bucket':'ftp_log_to_gcs_bucket1',				 ### Bucket to store log files getting from FTP
+'FTP_log_gcs_destination_folder':'ftp_log_folder',				 ### Folder inside the bucket to store log files
+'FTP_log_source_files_backup_bucket':'ftp_log_source_files_backup_bucket1',	 ### Backup bucket to store the source files log data
+'FTP_log_bq_tables_backup_bucket':'ftp_log_bq_tables_backup1',			 ### Backup bucket to store the log related BQ tables data
+'FTP_to_BQ_log_dataset':'ftp_gcs_bq_log',					 ### Dataset in BQ to store log file related tables
+
+
+                         ################ Variables related to API_to_BQ data ###############
+
+###'dataset_name':'API_Dataset',		   				 ### file
+'bucket_name':'bucket1_api11',							 ### bucket created to store API data initially
+'gcs_folder_name':'myfolder',							 ### folder inside the bucket created to store API data initially
+'uri_path':'gs://bucket1_api/',							 ### uri for API data	
+'api_link':'https://jsonplaceholder.typicode.com/todos',			 ### api link to retrieve data
+'api_to_GCS_bucket':'api_to_gcs_bucket1',				 	 ### Bucket to store csv files getting from FTP
+'api_gcs_destination_folder':'api_folder',				 	 ### Folder inside the bucket to store csv files
+'api_filename':'api_file.json',						 	 ### file created to store API data initially
+'api_source_files_backup_bucket':'api_source_files_backup_bucket1',	 	 ### Backup bucket to store the source files API data
+'api_bq_tables_backup_bucket':'api_bq_tables_backup1',			  	 ### Backup bucket to store the API related BQ tables data
+'api_to_BQ_dataset':'api_gcs_bq', 						 ### Dataset in BQ to store API file related tables
+
+                        ################# Temporary logfile to read the logging data from ftp ############
+
+'FTP_logfile_path':'/tmp/ftp_to_bq.log',					 ### Temporary logfile to read the logging data from ftp 						
+                        
+                         ################# Variables for accessing Parameters file from GCS ###############
+
+'bucket_name':'exporttobq1',							 ### Bucket to upload parameters dictionary file ### 
+'subfolder':'sql_export',							 ### Folder inside the above mentioned bucket where we can store 	                                                                                 ### the parameters file ### 
+'uri':'gs://exporttobq1/'  							 ### The URI path of parameters file bucket ### 				 
+}
+
+
